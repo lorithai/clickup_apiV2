@@ -10,9 +10,9 @@ Features
 * Set custom field values for tasks.
 
 ## Installation
-
-pip install 
-
+```
+pip install clickup-apiV2
+```
 ## Usage
 Initialize the Client
 
