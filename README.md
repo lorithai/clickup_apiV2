@@ -9,11 +9,11 @@ Features
 * Update task attributes.
 * Set custom field values for tasks.
 
-##Installation
+## Installation
 
 pip install 
 
-##Usage
+## Usage
 Initialize the Client
 
 ```
@@ -22,7 +22,7 @@ from clickup_apiV2 import Client
 api_token = "your_clickup_api_token"
 client = Client(api_token)
 ```
-##Methods
+## Methods
 1. Get Team IDs
 
 Retrieve the IDs of your teams.
