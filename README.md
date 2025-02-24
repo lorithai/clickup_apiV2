@@ -17,7 +17,7 @@ pip install clickup-apiv2
 Initialize the Client
 
 ```
-from clickup_apiv2 import Client 
+from clickup_apiV2 import Client 
 
 api_token = "your_clickup_api_token"
 client = Client(api_token)
