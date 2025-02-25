@@ -238,6 +238,27 @@ class Client:
             print(f"An error occurred while deleting task: {e}")
             return None
 
+    def set_custom_field_value(self,task_id,field_id,value):
+        url = f"https://api.clickup.com/api/v2/task/{task_id}/field/{field_id}"
+        headers = {
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": self.api_token
+        }
+        payload={"value":value}
+        try:
+            # Make the PUT request with data in the JSON payload
+            response = requests.post(url,json=payload, headers=headers)
+            # Raise an exception for HTTP errors
+            response.raise_for_status()
+            # Return the response data or success message
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred while setting custom field: {e}")
+            return None
+
+
+
 """
     def get_workspace_folders(self,workspace_id):
         url = f"{self.server}/api/v2/space/{workspace_id}/folder"
