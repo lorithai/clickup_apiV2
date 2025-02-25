@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='clickup-apiv2',  # The name of your package
-    version='0.0.5',            # Version number (increment with each release)
+    version='0.0.6',            # Version number (increment with each release)
     author='Aleksander Hykkerud',
     author_email='lorithai@gmail.com',
     description='A Python client for interacting with the ClickUp API V2.',
