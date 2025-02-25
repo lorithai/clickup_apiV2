@@ -6,7 +6,7 @@ class Client:
         self.api_token = api_token
 
 
-    def get_team_id(self):
+    def get_team_id(self,response="full"):
         headers = {
             "Content-Type": "application/json",
             "Authorization": self.api_token
@@ -23,13 +23,16 @@ class Client:
             data = response.json()
             
             # Return the team ID(s) from the response
-            team_ids = [team['id'] for team in data.get('teams', [])]
-            return team_ids
+            if response == "short":
+                team_ids = [team['id'] for team in data.get('teams', [])]
+                return team_ids
+            else:
+                return data
         except requests.exceptions.RequestException as e:
             print(f"An error occurred: {e}")
             return None
 
-    def get_workspaces(self, team_id):
+    def get_workspaces(self, team_id,response="full"):
         url = f"{self.server}/api/v2/team/{team_id}/space"
         headers = {
             "Content-Type": "application/json",
@@ -45,8 +48,9 @@ class Client:
             data = response.json()
             
             # Extract and return the workspace (space) details
-            workspaces = [{"id": space["id"], "name": space["name"]} for space in data.get("spaces", [])]
-            return workspaces
+            if response == "short":
+                workspaces = [{"id": space["id"], "name": space["name"]} for space in data.get("spaces", [])]
+                return workspaces
         
         except requests.exceptions.RequestException as e:
             print(f"An error occurred while fetching workspaces: {e}")
@@ -169,6 +173,50 @@ class Client:
             print(f"An error occurred while updating custom field: {e}")
             return None
 
+    def create_task(self,list_id,task_name,payload={},custom_task_ids=False,team_id=None):
+        """
+        example payload (https://developer.clickup.com/reference/createtask)
+        payload = {
+            "assignees": [1, 2],
+            "name": "hello",
+            "description": "asdf",
+            "archived": True,
+            "group_assignees": ["dd01f92f-48ca-446d-88a1-0beb0e8f5f14"],
+            "tags": ["tag1"],
+            "status": "Open",
+            "priority": 2,
+            "due_date": 1508369194377,
+            "time_estimate": 8640000,
+            "due_date_time": True,
+            "start_date": 1567780450202,
+            "start_date_time": True,
+            "points": 2,
+            "notify_all": False,
+            "parent": None,
+            "links_to": None,
+            "check_required_custom_fields": True
+        }
+        """
+        url = f"https://api.clickup.com/api/v2/list/{list_id}/task"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": self.api_token
+        }
+        data = {"name":task_name,
+                   }
+        data = data | payload
+
+        try:
+            # Make the PUT request with data in the JSON payload
+            response = requests.post(url, headers=headers, json=data)
+            # Raise an exception for HTTP errors
+            response.raise_for_status()
+
+            # Return the response data or success message
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred while creating task: {e}")
+            return None
 
 """
     def get_workspace_folders(self,workspace_id):
