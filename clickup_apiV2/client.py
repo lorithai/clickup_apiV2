@@ -298,7 +298,7 @@ class Client:
             print(f"An error occurred while setting custom field: {e}")
             return None
 
-    def update_time_entry(self, team_id, timer_id):
+    def update_time_entry(self, team_id, timer_id, body):
         url = f"https://api.clickup.com/api/v2/team/{team_id}/time_entries/{timer_id}"
         headers = {
             "accept": "application/json",
@@ -307,7 +307,7 @@ class Client:
         }
         try:
             # Make the PUT request with data in the JSON payload
-            response = requests.put(url,headers=headers)
+            response = requests.put(url,json=body,headers=headers)
             # Raise an exception for HTTP errors
             response.raise_for_status()
             # Return the response data or success message
