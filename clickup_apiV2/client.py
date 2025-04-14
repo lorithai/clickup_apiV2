@@ -257,8 +257,10 @@ class Client:
             print(f"An error occurred while setting custom field: {e}")
             return None
 
-    def get_current_timer(self):
-        url = "https://api.clickup.com/api/v2/team/time_entries/current"
+    def get_current_timer(self, team_id, assignee=None):
+        url = f"https://api.clickup.com/api/v2/team/{team_id}/time_entries/current"
+        if assignee:
+            url += f"?assignee={assignee}"
         headers = {
             "accept": "application/json",
             "Content-Type": "application/json",
