@@ -152,6 +152,47 @@ The client handles HTTP errors gracefully by catching requests.exceptions.Reques
 
 Feel free to submit issues or pull requests to enhance the functionality.
 
+## Contribution guidelines
+### Fork the repository
+Fork this repository to your own GitHub account.
+
+### Create a new branch
+Create a new branch for each significant change you make. The branch name should be descriptive, e.g., feature/add-new-method or bugfix/fix-authentication-error.
+
+### Make your changes
+Implement the changes in your branch, following the style and code conventions of the project.
+
+### Add tests (Optional, but appreciated)
+If you're adding new methods, please add corresponding unit tests in the tests directory. You can use unittest or pytest for testing. Be sure to mock any external API calls to ensure tests run independently. Check the existing tests in the tests folder.
+
+Test example <br>
+
+```
+@patch("clickup_apiv2.client.requests.get") # replace with the expected http method (get,post, ect...)
+def test_method_name(mock_get): # replace mock_get with the expected http method (get,post, ect...)
+    mock_get.return_value.json.return_value = {"teams": [{"id": 123, "name": "Team A"}]}
+    client = Client(api_token="your_api_token")
+    team_id = client.get_team_id()
+    self.assertEqual(team_id['teams'][0]['id'], 123)
+```
+run the following to test
+```pytest```
+
+### Commit your changes
+Ensure your commit messages are clear and descriptive. Use the following format for commit messages:
+* Fix: For bug fixes.
+* Add: For adding features or methods.
+* Update: For updating existing functionality.
+* Docs: For changes related to documentation.
+
+### Open a pull request
+Push your changes to your fork and open a pull request against the main branch of the original repository. Describe the changes you made and include any relevant details.
+
+###     
+
+### Tests
+```pytest```
+
 # License
 
 This project is licensed under the MIT License.
