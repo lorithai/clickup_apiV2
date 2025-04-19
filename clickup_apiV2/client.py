@@ -152,7 +152,7 @@ class Client:
             # Return the response data or success message
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"An error occurred while updating custom field: {e}")
+            print(f"An error occurred while updating task: {e}")
             return None
 
     def set_task_custom_field_value(self,task_id,field_id,custom_field_data):
@@ -274,7 +274,7 @@ class Client:
             # Return the response data or success message
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"An error occurred while setting custom field: {e}")
+            print(f"An error occurred while getting current timer: {e}")
             return None
 
     def get_time_entries(self, team_id, query_string=None):
@@ -295,7 +295,7 @@ class Client:
             # Return the response data or success message
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"An error occurred while setting custom field: {e}")
+            print(f"An error occurred while getting time entries: {e}")
             return None
 
     def update_time_entry(self, team_id, timer_id, body):
@@ -313,7 +313,7 @@ class Client:
             # Return the response data or success message
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"An error occurred while setting custom field: {e}")
+            print(f"An error occurred while updating time entry: {e}")
             return None
 
     def get_task(self, task_id):
@@ -331,7 +331,7 @@ class Client:
             # Return the response data or success message
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"An error occurred while setting custom field: {e}")
+            print(f"An error occurred while getting task: {e}")
             return None
 
 """
