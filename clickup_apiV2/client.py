@@ -18,10 +18,10 @@ class Client:
             response = requests.get(url, headers=headers)
             # Raise an exception for HTTP errors
             response.raise_for_status()
-            
+
             # Parse the JSON response
             data = response.json()
-            
+
             # Return the team ID(s) from the response
             if response == "short":
                 team_ids = [team['id'] for team in data.get('teams', [])]
@@ -43,19 +43,19 @@ class Client:
             response = requests.get(url, headers=headers)
             # Raise an exception for HTTP errors
             response.raise_for_status()
-            
+
             # Parse the JSON response
             data = response.json()
-            
+
             # Extract and return the workspace (space) details
             if response == "short":
                 workspaces = [{"id": space["id"], "name": space["name"]} for space in data.get("spaces", [])]
                 return workspaces
-        
+
         except requests.exceptions.RequestException as e:
             print(f"An error occurred while fetching workspaces: {e}")
             return None
-    
+
     def get_workspace_folders(self, workspace_id):
         url = f"{self.server}/api/v2/space/{workspace_id}/folder"
         headers = {
@@ -152,7 +152,7 @@ class Client:
             # Return the response data or success message
             return response.json()
         except requests.exceptions.RequestException as e:
-            print(f"An error occurred while updating custom field: {e}")
+            print(f"An error occurred while updating task: {e}")
             return None
 
     def set_task_custom_field_value(self,task_id,field_id,custom_field_data):
@@ -219,7 +219,7 @@ class Client:
             return None
 
     def delete_task(self,task_id):
-        
+
         url = f"https://api.clickup.com/api/v2/task/{task_id}"
         headers = {
             "accept": "application/json",
@@ -257,7 +257,82 @@ class Client:
             print(f"An error occurred while setting custom field: {e}")
             return None
 
+    def get_current_timer(self, team_id, assignee=None):
+        url = f"https://api.clickup.com/api/v2/team/{team_id}/time_entries/current"
+        if assignee:
+            url += f"?assignee={assignee}"
+        headers = {
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": self.api_token
+        }
+        try:
+            # Make the PUT request with data in the JSON payload
+            response = requests.get(url,headers=headers)
+            # Raise an exception for HTTP errors
+            response.raise_for_status()
+            # Return the response data or success message
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred while getting current timer: {e}")
+            return None
 
+    def get_time_entries(self, team_id, query_string=None):
+        # https://developer.clickup.com/reference/gettimeentrieswithinadaterange
+        url = f"https://api.clickup.com/api/v2/team/{team_id}/time_entries"
+        if query_string:
+            url += f"?{query_string}"
+        headers = {
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": self.api_token
+        }
+        try:
+            # Make the PUT request with data in the JSON payload
+            response = requests.get(url,headers=headers)
+            # Raise an exception for HTTP errors
+            response.raise_for_status()
+            # Return the response data or success message
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred while getting time entries: {e}")
+            return None
+
+    def update_time_entry(self, team_id, timer_id, body):
+        url = f"https://api.clickup.com/api/v2/team/{team_id}/time_entries/{timer_id}"
+        headers = {
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": self.api_token
+        }
+        try:
+            # Make the PUT request with data in the JSON payload
+            response = requests.put(url,json=body,headers=headers)
+            # Raise an exception for HTTP errors
+            response.raise_for_status()
+            # Return the response data or success message
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred while updating time entry: {e}")
+            return None
+
+    def get_task(self, task_id):
+        url = f"https://api.clickup.com/api/v2/task/{task_id}"
+        headers = {
+            "accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": self.api_token
+        }
+        try:
+            # Make the PUT request with data in the JSON payload
+            response = requests.put(url,headers=headers)
+            # Raise an exception for HTTP errors
+            response.raise_for_status()
+            # Return the response data or success message
+            return response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"An error occurred while getting task: {e}")
+            return None
 
 """
     def get_workspace_folders(self,workspace_id):
